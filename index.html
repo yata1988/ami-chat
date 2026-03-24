@@ -8,10 +8,7 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; overflow: hidden; font-family: 'Hiragino Kaku Gothic ProN', sans-serif; background: linear-gradient(135deg, #fdf8f0 0%, #faf4e8 50%, #f5ede0 100%); }
-
   #app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
-
-  /* ヘッダー */
   header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(255,255,255,0.6); backdrop-filter: blur(8px); border-bottom: 1px solid #f5e6cc; flex-shrink: 0; }
   .header-left { display: flex; align-items: center; gap: 8px; }
   .avatar { width: 32px; height: 32px; border-radius: 50%; background: #fde68a; display: flex; align-items: center; justify-content: center; font-size: 16px; }
@@ -20,8 +17,6 @@
   .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #d6d3d1; transition: background 0.3s; }
   .status-dot.active { background: #34d399; }
   .status-text { font-size: 11px; color: #a8a29e; }
-
-  /* チャット */
   #chat { flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
   #chat::-webkit-scrollbar { display: none; }
   .msg { display: flex; align-items: flex-start; gap: 8px; }
@@ -31,8 +26,6 @@
   .msg.ami .bubble { background: white; border-top-left-radius: 4px; border: 1px solid #f5f5f4; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
   .msg-avatar { width: 28px; height: 28px; border-radius: 50%; background: #fde68a; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-top: 2px; }
   .empty-msg { display: flex; align-items: center; justify-content: center; flex: 1; color: #a8a29e; font-size: 13px; text-align: center; line-height: 1.8; padding: 0 32px; }
-
-  /* ビジュアライザー */
   #visualizer-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 0 12px; gap: 12px; }
   .circle-wrap { position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; }
   .ripple { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #fbbf24; opacity: 0; }
@@ -40,28 +33,21 @@
   .ripple:nth-child(2) { animation-delay: 0.5s; }
   .ripple:nth-child(3) { animation-delay: 1s; }
   @keyframes ripple { 0% { transform: scale(0.85); opacity: 0.7; } 100% { transform: scale(1.8); opacity: 0; } }
-
-  #main-btn { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #fde68a; background: #fffbeb; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px rgba(251,191,36,0.2); -webkit-tap-highlight-color: transparent; user-select: none; }
+  #main-btn { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #fde68a; background: #fffbeb; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px rgba(251,191,36,0.2); -webkit-tap-highlight-color: transparent; user-select: none; touch-action: manipulation; }
   #main-btn:active { transform: scale(0.95); }
   #main-btn.listening { background: #fff1f2; border-color: #fda4af; animation: breathe 2s ease-in-out infinite; }
   #main-btn.thinking { background: #f5f3ff; border-color: #c4b5fd; }
   #main-btn.speaking { background: #f0fdf4; border-color: #86efac; }
   @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-  .btn-icon { font-size: 44px; line-height: 1; }
-  .wave-bars { display: flex; align-items: flex-end; gap: 3px; height: 20px; }
+  .btn-icon { font-size: 44px; line-height: 1; pointer-events: none; }
+  .wave-bars { display: flex; align-items: flex-end; gap: 3px; height: 20px; pointer-events: none; }
   .bar { width: 4px; border-radius: 2px; background: #f87171; }
   .bar.green { background: #4ade80; }
   @keyframes wave { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.8); } }
-
   .state-label { font-size: 13px; color: #78716c; font-weight: 500; }
-
-  /* 広告 */
   #ad-banner { flex-shrink: 0; height: 50px; background: #fafaf9; border-top: 1px solid #f5f5f4; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .ad-tag { font-size: 10px; background: #e7e5e4; color: #78716c; padding: 2px 6px; border-radius: 3px; }
   .ad-text { font-size: 11px; color: #a8a29e; }
-
-  /* フッター */
   footer { flex-shrink: 0; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 6px; background: rgba(255,255,255,0.3); border-top: 1px solid #fef3c7; }
   footer a { font-size: 10px; color: #a8a29e; text-decoration: none; }
   footer span { color: #d6d3d1; font-size: 10px; }
@@ -84,7 +70,7 @@
   </header>
 
   <div id="chat">
-    <div class="empty-msg" id="emptyMsg">ボタンを押しながら<br>話しかけてみて✨<br>amiがいつでも聞いてるよ</div>
+    <div class="empty-msg" id="emptyMsg">ボタンをタップして<br>話しかけてみて✨<br>amiがいつでも聞いてるよ</div>
   </div>
 
   <div id="visualizer-area">
@@ -92,7 +78,7 @@
       <div class="ripple" id="r1"></div>
       <div class="ripple" id="r2"></div>
       <div class="ripple" id="r3"></div>
-      <button id="main-btn" ontouchstart="startListen()" ontouchend="stopListen()" onmousedown="startListen()" onmouseup="stopListen()" onmouseleave="stopListen()">
+      <button id="main-btn">
         <div class="btn-icon" id="btnIcon">🎙️</div>
         <div class="wave-bars" id="waveBars" style="display:none">
           <div class="bar" style="height:8px;animation:wave 0.6s infinite"></div>
@@ -121,7 +107,7 @@
 </div>
 
 <script>
-const GEMINI_API_KEY = 'AIzaSyCdDK1cxKuQsJjSRCfJCsl-xipSOa5Pqlk'; // ここにAPIキーを入れる
+const GEMINI_API_KEY = 'AIzaSyCdDK1cxKuQsJjSRCfJCsl-xipSOa5Pqlk';
 
 const SYSTEM_PROMPT = `あなたは「ami（アミ）」という名前の、優しくて聞き上手な友達AIです。
 性格：明るく、共感力が高い。話し方：タメ口、親しみやすい日本語。
@@ -132,9 +118,8 @@ const SYSTEM_PROMPT = `あなたは「ami（アミ）」という名前の、優
 let state = 'idle';
 let recognition = null;
 let chatHistory = [];
-let currentTranscript = '';
+let isRecognizing = false;
 
-// Wake Lock
 async function acquireWakeLock() {
   if ('wakeLock' in navigator) {
     try { await navigator.wakeLock.request('screen'); } catch(e) {}
@@ -145,7 +130,6 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') acquireWakeLock();
 });
 
-// 状態管理
 function setState(s) {
   state = s;
   const btn = document.getElementById('main-btn');
@@ -163,7 +147,6 @@ function setState(s) {
 
   const barEls = bars.querySelectorAll('.bar');
   barEls.forEach(b => { b.className = 'bar' + (s === 'speaking' ? ' green' : ''); });
-
   [r1, r2, r3].forEach(r => r.className = 'ripple' + (s === 'listening' || s === 'speaking' ? ' active' : ''));
 
   const configs = {
@@ -178,27 +161,22 @@ function setState(s) {
   document.getElementById('statusText').textContent = c.status;
 }
 
-// メッセージ追加
 function addMessage(role, text) {
   const chat = document.getElementById('chat');
   const empty = document.getElementById('emptyMsg');
   if (empty) empty.remove();
-
   const div = document.createElement('div');
   div.className = 'msg ' + (role === 'user' ? 'user' : 'ami');
-
   if (role === 'ami') {
     div.innerHTML = `<div class="msg-avatar">🌸</div><div class="bubble">${text}</div>`;
   } else {
     div.innerHTML = `<div class="bubble">${text}</div>`;
   }
-
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
   chatHistory.push({ role: role === 'user' ? 'user' : 'model', parts: [{ text }] });
 }
 
-// 音声合成
 function speak(text) {
   if (!('speechSynthesis' in window)) { setState('idle'); return; }
   window.speechSynthesis.cancel();
@@ -215,7 +193,6 @@ function speak(text) {
   window.speechSynthesis.speak(utter);
 }
 
-// Gemini API呼び出し
 async function askGemini(userText) {
   setState('thinking');
   try {
@@ -243,50 +220,64 @@ async function askGemini(userText) {
   }
 }
 
-// 音声認識
-function startListen() {
-  if (state !== 'idle') return;
-  window.speechSynthesis.cancel();
+// ★ Safari対応：タップで開始・もう一度タップで停止
+function toggleListen() {
+  if (state === 'thinking' || state === 'speaking') return;
+
+  if (isRecognizing) {
+    // 停止
+    if (recognition) recognition.stop();
+    return;
+  }
 
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) {
-    alert('このブラウザは音声認識に対応していません。Chrome等をお試しください。');
+    alert('音声認識に対応していません。iPhoneのSafariをお使いください。');
     return;
   }
 
   recognition = new SR();
   recognition.lang = 'ja-JP';
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  currentTranscript = '';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  let finalText = '';
+
+  recognition.onstart = () => {
+    isRecognizing = true;
+    setState('listening');
+  };
 
   recognition.onresult = (e) => {
-    let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) currentTranscript += e.results[i][0].transcript;
-      else interim = e.results[i][0].transcript;
+      if (e.results[i].isFinal) finalText += e.results[i][0].transcript;
     }
   };
 
-  recognition.onerror = () => setState('idle');
+  recognition.onend = () => {
+    isRecognizing = false;
+    if (finalText.trim()) {
+      addMessage('user', finalText.trim());
+      askGemini(finalText.trim());
+    } else {
+      setState('idle');
+    }
+  };
+
+  recognition.onerror = (e) => {
+    isRecognizing = false;
+    console.error('音声認識エラー:', e.error);
+    setState('idle');
+    if (e.error === 'not-allowed') {
+      alert('マイクの使用が許可されていません。設定→Safari→マイクを確認してください。');
+    }
+  };
+
   recognition.start();
-  setState('listening');
 }
 
-function stopListen() {
-  if (state !== 'listening' || !recognition) return;
-  recognition.stop();
-  setState('thinking');
+document.getElementById('main-btn').addEventListener('click', toggleListen);
 
-  setTimeout(() => {
-    const text = currentTranscript.trim();
-    if (!text) { setState('idle'); return; }
-    addMessage('user', text);
-    askGemini(text);
-  }, 500);
-}
-
-// 初期挨拶
 window.addEventListener('load', () => {
   window.speechSynthesis.getVoices();
   setTimeout(() => {
